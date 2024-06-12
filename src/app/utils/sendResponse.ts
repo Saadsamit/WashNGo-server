@@ -3,17 +3,15 @@ import { Response } from 'express';
 type TResponse<T> = {
   statusCode: number;
   success: boolean;
+  token?: null | string;
   message?: string;
   data: T;
 };
 
 const sendResponse = <T>(res: Response, data: TResponse<T>) => {
-  res.status(data?.statusCode).json({
-    success: data.success,
-    statusCode: data?.statusCode,
-    message: data.message,
-    data: data.data,
-  });
+  if (!data?.token) delete data.token;
+
+  res.status(data?.statusCode).json(data);
 };
 
 export default sendResponse;

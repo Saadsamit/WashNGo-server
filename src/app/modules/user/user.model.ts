@@ -1,11 +1,11 @@
 import { Schema, model } from 'mongoose';
-import Tuser from './user.interface';
+import { TUserModel, Tuser } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
 
 export const userRole = ['admin', 'user'];
 
-const userSchema = new Schema<Tuser>(
+const userSchema = new Schema<Tuser, TUserModel>(
   {
     name: {
       type: String,
@@ -48,6 +48,17 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-const user = model<Tuser>('user', userSchema);
+userSchema.statics.isUserExsit = async function (email: string) {
+  return await user.findOne({ email },'password email role');
+};
+
+userSchema.statics.isPasswordMatched = async function (
+  textPassword: string,
+  hashPassword: string,
+) {
+  return await bcrypt.compare(textPassword, hashPassword);
+};
+
+const user = model<Tuser, TUserModel>('user', userSchema);
 
 export default user;
