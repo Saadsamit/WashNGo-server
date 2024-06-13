@@ -25,7 +25,7 @@ const userLogin = async (payload: TuserLogin) => {
   const token = jwt.sign(payload, config.jwt_access_secret as string, {
     expiresIn: config.jwt_access_expires_in,
   });
-console.log(payload);
+  
   const data = await user.findOne({ email: isExist.email });
 
   return { data, token };
