@@ -10,10 +10,10 @@ const slotSchemaValidation = z.object({
       message: 'Invalid date format, expected YYYY-MM-DD',
     }),
     startTime: z.string().refine((val) => timePattern.test(val), {
-      message: 'Invalid time format, expected HH:MM',
+      message: 'Ensures the time is in HH:MM format (24-hour)',
     }),
     endTime: z.string().refine((val) => timePattern.test(val), {
-      message: 'Invalid time format, expected HH:MM',
+      message: 'Ensures the time is in HH:MM format (24-hour)',
     }),
   }),
 });

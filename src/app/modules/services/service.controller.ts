@@ -65,7 +65,7 @@ const deleteServices = catchAsync(async (req: Request, res: Response) => {
 });
 
 const createSlot = catchAsync(async (req: Request, res: Response) => {
-  const body = req;
+  const body = req.body;
   const result = await services.createSlotDB(body);
 
   sendResponse(res, {

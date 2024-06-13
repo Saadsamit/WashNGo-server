@@ -7,7 +7,7 @@ type TSlot = {
   date: string;
   startTime: string;
   endTime: string;
-  isBooked: TBookingStatus;
+  isBooked?: TBookingStatus;
 };
 
 export { TSlot, TBookingStatus };
