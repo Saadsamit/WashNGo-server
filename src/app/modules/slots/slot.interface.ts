@@ -10,4 +10,6 @@ type TSlot = {
   isBooked?: TBookingStatus;
 };
 
-export { TSlot, TBookingStatus };
+type TSlotQuery = { service?: Types.ObjectId; date?: string };
+
+export { TSlot, TBookingStatus, TSlotQuery };
