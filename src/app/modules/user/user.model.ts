@@ -10,29 +10,35 @@ const userSchema = new Schema<Tuser, TUserModel>(
     name: {
       type: String,
       required: true,
+      trim: true,
     },
     email: {
       type: String,
       required: true,
       unique: true,
+      trim: true,
     },
     password: {
       type: String,
       required: true,
       select: false,
+      trim: true,
     },
     phone: {
       type: String,
       required: true,
+      trim: true,
     },
     role: {
       type: String,
       enum: userRole,
       required: true,
+      trim: true,
     },
     address: {
       type: String,
       required: true,
+      trim: true,
     },
   },
   {
@@ -49,7 +55,7 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.statics.isUserExsit = async function (email: string) {
-  return await user.findOne({ email },'password email role');
+  return await user.findOne({ email }, 'password email role');
 };
 
 userSchema.statics.isPasswordMatched = async function (

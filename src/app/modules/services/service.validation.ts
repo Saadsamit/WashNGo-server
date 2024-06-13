@@ -10,4 +10,13 @@ const serviceSchemaValidation = z.object({
   }),
 });
 
-export default serviceSchemaValidation;
+const updateServiceSchemaValidation = z.object({
+  body: z.object({
+    name: z.string().optional(),
+    description: z.string().optional(),
+    price: z.number().optional(),
+    duration: z.number().optional(),
+  }),
+});
+
+export { serviceSchemaValidation, updateServiceSchemaValidation };

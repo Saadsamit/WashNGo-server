@@ -39,8 +39,48 @@ const findServices = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateServices = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const body = req.body;
+  const result = await services.updateServiceDB(id, body);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Service updated successfully',
+    data: result,
+  });
+});
+
+const deleteServices = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await services.deleteServiceDB(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Service deleted successfully',
+    data: result,
+  });
+});
+
+const createSlot = catchAsync(async (req: Request, res: Response) => {
+  const body = req;
+  const result = await services.createSlotDB(body);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Slots created successfully',
+    data: result,
+  });
+});
+
 export const serviceController = {
   createService,
   serviceFindById,
   findServices,
+  updateServices,
+  deleteServices,
+  createSlot,
 };

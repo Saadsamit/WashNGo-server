@@ -3,11 +3,11 @@ import TService from './service.interface';
 
 const serviceSchema = new Schema<TService>(
   {
-    name: { type: String, required: true },
-    description: { type: String, required: true },
-    price: { type: Number, required: true },
-    duration: { type: Number, required: true },
-    isDeleted: { type: Boolean, required: true, default: false },
+    name: { type: String, required: true, trim: true },
+    description: { type: String, required: true, trim: true },
+    price: { type: Number, required: true, trim: true },
+    duration: { type: Number, required: true, trim: true },
+    isDeleted: { type: Boolean, required: true, default: false, trim: true },
   },
   { timestamps: true },
 );
