@@ -39,7 +39,7 @@ const updateServiceDB = async (_id: string, payload: Partial<TService>) => {
 };
 
 const deleteServiceDB = async (_id: string) => {
-  const isExist = await service.findById({ _id, isDeleted: false });
+  const isExist = await service.findOne({ _id, isDeleted: false });
   if (!isExist) {
     throw new AppError(httpStatus.NOT_FOUND, 'The service not found.');
   }
@@ -97,18 +97,20 @@ const createSlotDB = async (payload: TSlot) => {
     const startTimeMinutes = startMin + currentValue * isExist.duration;
     const startHour = Math.floor(startTimeMinutes / 60);
     const startMinInHour = startTimeMinutes % 60;
-    const TimeStart = `${startHour.toString().padStart(2, '0')}:${startMinInHour.toString().padStart(2, '0')}`;
-
     const endTimeMinutes = startMin + (currentValue + 1) * isExist.duration;
     const endHour = Math.floor(endTimeMinutes / 60);
     const endMinInHour = endTimeMinutes % 60;
+
+    const TimeStart = `${startHour.toString().padStart(2, '0')}:${startMinInHour.toString().padStart(2, '0')}`;
     const TimeEnd = `${endHour.toString().padStart(2, '0')}:${endMinInHour.toString().padStart(2, '0')}`;
+
     const myData: TSlot = {
       service: payload.service,
       date: payload.date,
       startTime: TimeStart,
       endTime: TimeEnd,
     };
+
     slots.push(myData);
   });
 

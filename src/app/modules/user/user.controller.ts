@@ -19,7 +19,7 @@ const login = catchAsync(async (req: Request, res: Response) => {
   const userLoginData: TuserLogin = req.body;
   const { data, token } = await userService.userLogin(userLoginData);
 
-  res.cookie('Authorization', `Bearer ${token}`);
+  res.cookie('Authorization', token);
 
   sendResponse(res, {
     success: true,

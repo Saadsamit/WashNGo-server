@@ -9,7 +9,7 @@ import { TUserRole } from '../modules/user/user.interface';
 
 const auth = (...roles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const ParseToken = req.headers.authorization || req.cookies.Authorization
+    const ParseToken = req.headers.authorization;
     if (!ParseToken) {
       throw new AppError(httpStatus.FORBIDDEN, 'you dont have access token');
     }
@@ -34,6 +34,7 @@ const auth = (...roles: TUserRole[]) => {
         'You have no access to this route',
       );
     }
+    req.user = { email, role };
     next();
   });
 };

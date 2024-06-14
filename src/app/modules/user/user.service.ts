@@ -21,11 +21,15 @@ const userLogin = async (payload: TuserLogin) => {
   if (!(await user.isPasswordMatched(payload.password, isExist.password))) {
     throw new AppError(httpStatus.FORBIDDEN, 'You enter wrong password');
   }
-  payload.role = isExist.role;
-  const token = jwt.sign(payload, config.jwt_access_secret as string, {
+
+  const userData = {
+    email: payload.email,
+    role: isExist.role,
+  };
+  const token = jwt.sign(userData, config.jwt_access_secret as string, {
     expiresIn: config.jwt_access_expires_in,
   });
-  
+
   const data = await user.findOne({ email: isExist.email });
 
   return { data, token };
