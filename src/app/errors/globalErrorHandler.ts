@@ -31,13 +31,15 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
+  } else if (message.includes('jwt expired')){
+    statusCode = 403
   }
-  return res.status(statusCode).json({
-    success: false,
-    message,
-    errorMessages,
-    stack: err?.stack,
-  });
+    return res.status(statusCode).json({
+      success: false,
+      message,
+      errorMessages,
+      stack: err?.stack,
+    });
 };
 
 export default globalErrorHandler;

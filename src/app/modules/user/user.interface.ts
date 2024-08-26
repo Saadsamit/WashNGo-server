@@ -6,7 +6,7 @@ interface Tuser {
   name: string;
   email: string;
   password: string;
-  phone: string;
+  phone: number;
   role: 'admin' | 'user';
   address: string;
 }

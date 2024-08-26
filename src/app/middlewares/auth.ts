@@ -11,7 +11,7 @@ const auth = (...roles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const ParseToken = req.headers.authorization;
     if (!ParseToken) {
-      throw new AppError(httpStatus.FORBIDDEN, 'you dont have access token');
+      throw new AppError(httpStatus.UNAUTHORIZED, 'you dont have access token');
     }
     const token = ParseToken.split(' ')[1];
 
@@ -20,12 +20,12 @@ const auth = (...roles: TUserRole[]) => {
       config.jwt_access_secret as string,
     ) as JwtPayload;
 
-    const { email, role } = decode;
+    const { email, role, } = decode;
 
     const isExist = await user.isUserExsit(email);
 
     if (!isExist) {
-      throw new AppError(httpStatus.NOT_FOUND, 'User not Exist');
+      throw new AppError(httpStatus.UNAUTHORIZED, 'User not Exist');
     }
 
     if (roles && !roles.includes(role)) {
