@@ -1,4 +1,5 @@
 type TService = {
+  image: string;
   name: string;
   description: string;
   price: number;
