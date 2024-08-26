@@ -4,6 +4,7 @@ import TService from './service.interface';
 import service from './service.model';
 import { TSlot } from '../slots/slot.interface';
 import slot from '../slots/slot.model';
+import { Request } from 'express';
 
 const createUserDB = async (payload: TService) => {
   if (payload?.isDeleted) {
@@ -20,8 +21,23 @@ const FindByIdDB = async (_id: string) => {
   return await service.findOne({ _id, isDeleted: false });
 };
 
-const FindServicesDB = async () => {
-  return await service.find({ isDeleted: false });
+const FindServicesDB = async (req: Request) => {
+  const limit = Number(req.query?.limit);
+  const sort =
+    (req.query?.sort as string)?.split(',').join(' ') || '-createdAt';
+  const search = req.query?.search;
+  let query = {};
+  
+  if (search) {
+    query = { name: { $regex: search, $options: 'i' } };
+  }
+
+  const serviceQuery = service.find({ isDeleted: false, ...query }).sort(sort);
+
+  if (limit) {
+    return await serviceQuery.limit(limit);
+  }
+  return await serviceQuery;
 };
 
 const updateServiceDB = async (_id: string, payload: Partial<TService>) => {

@@ -28,7 +28,7 @@ const serviceFindById = catchAsync(async (req: Request, res: Response) => {
 });
 
 const findServices = catchAsync(async (req: Request, res: Response) => {
-  const result = await services.FindServicesDB();
+  const result = await services.FindServicesDB(req);
 
   sendResponse(res, {
     success: result.length > 0 ? true : false,
