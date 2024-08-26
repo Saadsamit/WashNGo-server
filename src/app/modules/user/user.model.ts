@@ -32,6 +32,7 @@ const userSchema = new Schema<Tuser, TUserModel>(
     role: {
       type: String,
       enum: userRole,
+      default: 'user',
       required: true,
       trim: true,
     },

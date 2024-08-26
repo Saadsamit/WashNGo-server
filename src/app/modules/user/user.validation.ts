@@ -1,13 +1,11 @@
 import { z } from 'zod';
-import { userRole } from './user.model';
 
 const userSchemaValidation = z.object({
   body: z.object({
     name: z.string(),
     email: z.string().email(),
-    password: z.string(),
+    password: z.string().min(6),
     phone: z.string(),
-    role: z.enum([...userRole] as [string, ...string[]]),
     address: z.string(),
   }),
 });
