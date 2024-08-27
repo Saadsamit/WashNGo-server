@@ -49,9 +49,23 @@ const updateAccountDB = async (req: Request) => {
   return result;
 };
 
+const allUserDB = async () => {
+  const result = await user.find();
+  return result;
+};
+
+const roleUpdateDB = async (req: Request) => {
+  const id = req.params.id;
+  const data = req.body;
+  const result = await user.findByIdAndUpdate(id, data);
+  return result;
+};
+
 export const userService = {
   createUserDB,
   userLogin,
   myAccountDB,
   updateAccountDB,
+  allUserDB,
+  roleUpdateDB,
 };

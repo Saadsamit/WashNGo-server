@@ -50,9 +50,33 @@ const updateAccount = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const allUser = catchAsync(async (req: Request, res: Response) => {
+  const data = await userService.allUserDB();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'User get successfully',
+    data: data,
+  });
+});
+
+const roleUpdate = catchAsync(async (req: Request, res: Response) => {
+  const data = await userService.roleUpdateDB(req);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'User role update successfully',
+    data: data,
+  });
+});
+
 export const userController = {
   signup,
   login,
   myAccount,
   updateAccount,
+  allUser,
+  roleUpdate,
 };

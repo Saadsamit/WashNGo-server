@@ -10,7 +10,6 @@ import { TUserRole } from '../modules/user/user.interface';
 const auth = (...roles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const ParseToken = req.headers.authorization;
-    console.log(ParseToken);
     if (!ParseToken) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'you dont have access token');
     }
