@@ -19,8 +19,6 @@ const login = catchAsync(async (req: Request, res: Response) => {
   const userLoginData: TuserLogin = req.body;
   const { data, token } = await userService.userLogin(userLoginData);
 
-  res.cookie('Authorization', token);
-
   sendResponse(res, {
     success: true,
     statusCode: 200,
@@ -30,7 +28,31 @@ const login = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const myAccount = catchAsync(async (req: Request, res: Response) => {
+  const data = await userService.myAccountDB(req);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'User get successfully',
+    data: data,
+  });
+});
+
+const updateAccount = catchAsync(async (req: Request, res: Response) => {
+  const data = await userService.updateAccountDB(req);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'User update successfully',
+    data: data,
+  });
+});
+
 export const userController = {
   signup,
   login,
+  myAccount,
+  updateAccount,
 };

@@ -17,4 +17,16 @@ const loginSchemaValidation = z.object({
   }),
 });
 
-export { userSchemaValidation, loginSchemaValidation };
+const updateAccountSchemaValidation = z.object({
+  body: z.object({
+    name: z.string(),
+    phone: z.number(),
+    address: z.string(),
+  }),
+});
+
+export {
+  userSchemaValidation,
+  updateAccountSchemaValidation,
+  loginSchemaValidation,
+};

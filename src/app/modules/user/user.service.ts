@@ -4,6 +4,7 @@ import { Tuser, TuserLogin } from './user.interface';
 import user from './user.model';
 import jwt from 'jsonwebtoken';
 import config from '../../config';
+import { Request } from 'express';
 
 const createUserDB = async (payload: Tuser) => {
   const newUser = new user(payload);
@@ -35,7 +36,22 @@ const userLogin = async (payload: TuserLogin) => {
   return { data, token };
 };
 
+const myAccountDB = async (req: Request) => {
+  const { email } = req.user;
+  const result = await user.findOne({ email });
+  return result;
+};
+
+const updateAccountDB = async (req: Request) => {
+  const { email } = req.user;
+  const payload = req.body;
+  const result = await user.findOneAndUpdate({ email }, payload);
+  return result;
+};
+
 export const userService = {
   createUserDB,
   userLogin,
+  myAccountDB,
+  updateAccountDB,
 };
