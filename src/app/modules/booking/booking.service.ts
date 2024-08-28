@@ -76,6 +76,7 @@ const createBookingDB = async (req: Request, payload: TBooking) => {
 const allBookingDB = async () => {
   const allBooking = await booking
     .find()
+    .sort('-createdAt')
     .populate({ path: 'customer', select: '-createdAt -updatedAt -__v' })
     .populate({ path: 'slot', select: '-createdAt -updatedAt -__v' })
     .populate({ path: 'service', select: '-createdAt -updatedAt -__v' });
