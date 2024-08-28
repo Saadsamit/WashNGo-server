@@ -27,6 +27,18 @@ const findSlot = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateSlotStatus = catchAsync(async (req: Request, res: Response) => {
+  const result = await slotService.updateSlotStatusDB(req);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'slot status update successfully',
+    data: result,
+  });
+});
+
 export const slotController = {
   findSlot,
+  updateSlotStatus,
 };
