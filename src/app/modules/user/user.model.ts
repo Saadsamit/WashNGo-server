@@ -56,7 +56,10 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.statics.isUserExsit = async function (email: string) {
-  return await user.findOne({ email }, 'password email role');
+  return await user.findOne(
+    { email },
+    'password email name address phone role',
+  );
 };
 
 userSchema.statics.isPasswordMatched = async function (

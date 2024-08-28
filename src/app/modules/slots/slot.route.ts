@@ -7,6 +7,8 @@ const route = Router();
 
 route.get('/availability', slotController.findSlot);
 
+route.get('/:id', slotController.findASlot);
+
 route.put(
   '/updateSlotStatus/:id',
   auth(User_Role.admin),

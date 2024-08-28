@@ -24,12 +24,3 @@ type TBooking = {
 };
 
 export default TBooking;
-
-// customer:,
-// service:,
-// slot:,
-// vehicleType:,
-// vehicleBrand:,
-// vehicleModel:,
-// manufacturingYear:,
-// registrationPlate:,

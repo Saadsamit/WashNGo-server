@@ -10,7 +10,7 @@ const slotSchema = new Schema<TSlot>(
       trim: true,
     },
     date: {
-      type: String,
+      type: Date,
       require: true,
       trim: true,
     },

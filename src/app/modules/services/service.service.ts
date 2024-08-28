@@ -5,6 +5,7 @@ import service from './service.model';
 import { TSlot } from '../slots/slot.interface';
 import slot from '../slots/slot.model';
 import { Request } from 'express';
+import moment from 'moment';
 
 const createUserDB = async (payload: TService) => {
   if (payload?.isDeleted) {
@@ -27,7 +28,7 @@ const FindServicesDB = async (req: Request) => {
     (req.query?.sort as string)?.split(',').join(' ') || '-createdAt';
   const search = req.query?.search;
   let query = {};
-  
+
   if (search) {
     query = { name: { $regex: search, $options: 'i' } };
   }
@@ -75,7 +76,14 @@ const createSlotDB = async (payload: TSlot) => {
   if (!isExist) {
     throw new AppError(httpStatus.NOT_FOUND, 'The service not found.');
   }
-
+  const date = new Date(payload.date).setHours(0, 0, 0, 0);
+  const curDate = new Date(Date.now()).setHours(0, 0, 0, 0);
+  if (date < curDate) {
+    throw new AppError(
+      httpStatus.NOT_ACCEPTABLE,
+      'select current date or upcoming date',
+    );
+  }
   const startTimeHour = Number(payload.startTime.split(':')[0]);
   const startTimeMin = Number(payload.startTime.split(':')[1]);
   const endTimeHour = Number(payload.endTime.split(':')[0]);
@@ -133,6 +141,23 @@ const createSlotDB = async (payload: TSlot) => {
   return await slot.insertMany(slots);
 };
 
+const serviceSlotsDB = async (req: Request) => {
+  const serviceId = req.params.id;
+  const date = moment(req.params.date).format('L');
+  const isExist = await service.find({ _id: serviceId, isDeleted: false });
+  if (!isExist) {
+    throw new AppError(httpStatus.NOT_FOUND, 'The service not found.');
+  }
+  const result = await slot.find({
+    service: serviceId,
+    date: {
+      $eq: date,
+    },
+  });
+
+  return result;
+};
+
 export const services = {
   createUserDB,
   FindByIdDB,
@@ -140,4 +165,5 @@ export const services = {
   updateServiceDB,
   deleteServiceDB,
   createSlotDB,
+  serviceSlotsDB,
 };

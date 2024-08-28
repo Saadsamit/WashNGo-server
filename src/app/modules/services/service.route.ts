@@ -38,4 +38,6 @@ route.post(
   serviceController.createSlot,
 );
 
+route.get('/slots/:id/:date', serviceController.serviceSlots);
+
 export const serviceRoute = route;

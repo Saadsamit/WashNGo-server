@@ -7,9 +7,11 @@ import slot from '../slots/slot.model';
 import mongoose from 'mongoose';
 import user from '../user/user.model';
 import booking from './booking.model';
+// import { v4 as uuid } from 'uuid';
+// import axios from 'axios';
 
 const createBookingDB = async (req: Request, payload: TBooking) => {
-  const email = req?.user?.email;
+  const { email } = req.user;
   const session = await mongoose.startSession();
   try {
     await session.startTransaction();
@@ -72,6 +74,64 @@ const createBookingDB = async (req: Request, payload: TBooking) => {
     throw new Error(err);
   }
 };
+
+// const createBookingDB = async (
+//   req: Request,
+//   payload: TBooking,
+//   res: Response,
+// ) => {
+//   const { email, name, address, phone } = req.user;
+//   const isServiceExist = await service.findOne({
+//     _id: payload.service,
+//     isDeleted: false,
+//   });
+//   const price = Number(isServiceExist?.price) * 100;
+//   //Fill formData with your own data
+//   const paymentData = {
+//     price,
+//     name,
+//     email,
+//     address,
+//     phone,
+//   };
+//   const formData = {
+//     signature_key: 'dbb74894e82415a2f7ff0ec3a97e4183',
+//     store_id: 'aamarpaytest',
+//     tran_id: uuid(),
+//     success_url: `http://localhost:5173/`,
+//     fail_url: `http://localhost:5173/`,
+//     cancel_url: 'http://localhost:5173/',
+//     amount: paymentData.price,
+//     currency: 'BDT',
+//     desc: 'Merchant Registration Payment',
+//     cus_name: paymentData.name,
+//     cus_email: paymentData.email,
+//     cus_add1: paymentData.address,
+//     cus_add2: 'N/A',
+//     cus_city: 'N/A',
+//     cus_state: 'N/A',
+//     cus_postcode: 'N/A',
+//     cus_country: 'N/A',
+//     cus_phone: paymentData.phone,
+//     type: 'json',
+//   };
+//   const { data } = await axios.post('https://sandbox.aamarpay.com/jsonpost.php', formData);
+//   if (data.result !== 'true') {
+//     let errorMessage = '';
+//     for (const key in data) {
+//       errorMessage += data[key] + '. ';
+//     }
+//     console.log('error', errorMessage);
+//     return;
+//     // throw new AppError(httpStatus.BAD_REQUEST, 'Failed to make payment');
+//   }
+//   console.log('data', data);
+//   if (data.payment_url) {
+//     res.status(301).redirect(data.payment_url);
+//   }
+
+//   return { payload };
+// };
 
 const allBookingDB = async () => {
   const allBooking = await booking

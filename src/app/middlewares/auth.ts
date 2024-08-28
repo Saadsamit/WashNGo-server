@@ -20,7 +20,7 @@ const auth = (...roles: TUserRole[]) => {
       config.jwt_access_secret as string,
     ) as JwtPayload;
 
-    const { email, role, } = decode;
+    const { email, role } = decode;
 
     const isExist = await user.isUserExsit(email);
 
@@ -34,7 +34,13 @@ const auth = (...roles: TUserRole[]) => {
         'You have no access to this route',
       );
     }
-    req.user = { email, role };
+    req.user = {
+      email,
+      role,
+      name: isExist?.name,
+      address: isExist?.address,
+      phone: isExist?.phone,
+    };
     next();
   });
 };

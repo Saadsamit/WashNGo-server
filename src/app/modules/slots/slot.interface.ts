@@ -4,7 +4,7 @@ type TBookingStatus = 'available' | 'booked' | 'canceled';
 
 type TSlot = {
   service: Types.ObjectId;
-  date: string;
+  date: Date;
   startTime: string;
   endTime: string;
   isBooked?: TBookingStatus;

@@ -14,7 +14,13 @@ const updateSlotStatusDB = async (req: Request) => {
   return await slot.findByIdAndUpdate(id, { isBooked });
 };
 
+const findASlotDB = async (req: Request) => {
+  const id = req.params.id;
+  return await slot.findById(id).populate('service');
+};
+
 export const slotService = {
   findSlotDB,
   updateSlotStatusDB,
+  findASlotDB,
 };
