@@ -6,6 +6,7 @@ type TResponse<T> = {
   token?: null | string;
   message?: string;
   data: T;
+  feedbackExsit?: boolean;
 };
 
 const sendResponse = <T>(res: Response, data: TResponse<T>) => {
