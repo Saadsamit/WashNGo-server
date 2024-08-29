@@ -22,6 +22,11 @@ const bookingSchema = new Schema<TBooking>(
       require: true,
       trim: true,
     },
+    bookingDate: {
+      type: Date,
+      require: true,
+      trim: true,
+    },
     customer: {
       type: Schema.Types.ObjectId,
       ref: 'user',

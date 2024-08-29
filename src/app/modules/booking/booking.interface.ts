@@ -17,6 +17,7 @@ type TBooking = {
   service: Types.ObjectId;
   slot: Types.ObjectId;
   vehicleType: TVehicleType;
+  bookingDate: Date;
   vehicleBrand: string;
   vehicleModel: string;
   manufacturingYear: number;

@@ -6,6 +6,7 @@ const bookingSchemaValidation = z.object({
     serviceId: z.string(),
     slotId: z.string(),
     vehicleType: z.enum([...vehicleType] as [string, ...string[]]),
+    bookingDate: z.string(),
     vehicleBrand: z.string(),
     vehicleModel: z.string(),
     manufacturingYear: z.number(),

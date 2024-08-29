@@ -9,6 +9,7 @@ const createBooking = catchAsync(async (req: Request, res: Response) => {
   const bookingData = {
     service: data.serviceId,
     slot: data.slotId,
+    bookingDate: data.bookingDate,
     vehicleType: data.vehicleType,
     vehicleBrand: data.vehicleBrand,
     vehicleModel: data.vehicleModel,
@@ -44,13 +45,10 @@ const userBooking = catchAsync(async (req: Request, res: Response) => {
   const result = await bookingService.userBookingDB(req);
 
   sendResponse(res, {
-    success: result.length > 0 ? true : false,
-    statusCode: result.length > 0 ? httpStatus.OK : httpStatus.NOT_FOUND,
-    message:
-      result.length > 0
-        ? 'User bookings retrieved successfully'
-        : 'No Data Found',
-    data: result.length > 0 ? result : [],
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User bookings retrieved successfully',
+    data: result,
   });
 });
 

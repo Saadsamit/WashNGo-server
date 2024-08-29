@@ -7,6 +7,7 @@ import slot from '../slots/slot.model';
 import mongoose from 'mongoose';
 import user from '../user/user.model';
 import booking from './booking.model';
+import moment from 'moment';
 // import { v4 as uuid } from 'uuid';
 // import axios from 'axios';
 
@@ -145,11 +146,42 @@ const allBookingDB = async () => {
 
 const userBookingDB = async (req: Request) => {
   const email = req.user?.email;
+  const date = moment(new Date(Date.now())).format('L');
+  const mode = req.query?.mode;
   const customer = await user.findOne({ email });
+  let query = {};
+  if (mode === 'past') {
+    query = {
+      bookingDate: {
+        $lt: date,
+      },
+    };
+  }
+  if (mode === 'upcoming') {
+    query = {
+      bookingDate: {
+        $gte: date,
+      },
+    };
+  }
+  if (mode === 'nav') {
+    const bookingList = await booking
+      .findOne({
+        customer: customer?._id,
+        bookingDate: {
+          $gte: date,
+        },
+      }).select('slot')
+      .populate({ path: 'slot', select: '-createdAt -updatedAt -__v' })
+      .sort('-bookingDate');
+    return bookingList;
+  }
   const bookingList = await booking
-    .find({ customer: customer?._id })
+    .find({ customer: customer?._id, ...query })
     .populate({ path: 'slot', select: '-createdAt -updatedAt -__v' })
-    .populate({ path: 'service', select: '-createdAt -updatedAt -__v' });
+    .populate({ path: 'service', select: '-createdAt -updatedAt -__v' })
+    .populate({ path: 'customer', select: '-createdAt -updatedAt -__v' })
+    .sort('-bookingDate');
   return bookingList;
 };
 
