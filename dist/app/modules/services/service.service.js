@@ -72,18 +72,13 @@ const createSlotDB = (payload) => __awaiter(void 0, void 0, void 0, function* ()
     if (!isExist) {
         throw new appError_1.default(http_status_1.default.NOT_FOUND, 'The service not found.');
     }
-    const date = new Date(payload.date).setHours(0, 0, 0, 0);
-    const curDate = new Date(Date.now()).setHours(0, 0, 0, 0);
-    if (date < curDate) {
-        throw new appError_1.default(http_status_1.default.NOT_ACCEPTABLE, 'select current date or upcoming date');
+    if ((0, moment_1.default)(payload.date).isBefore()) {
+        throw new appError_1.default(http_status_1.default.NOT_ACCEPTABLE, 'select upcoming date');
     }
     const startTimeHour = Number(payload.startTime.split(':')[0]);
     const startTimeMin = Number(payload.startTime.split(':')[1]);
     const endTimeHour = Number(payload.endTime.split(':')[0]);
     const endTimeMin = Number(payload.endTime.split(':')[1]);
-    if ((0, moment_1.default)((0, moment_1.default)().format('HH:mm'), 'HH:mm').isSameOrAfter((0, moment_1.default)(payload === null || payload === void 0 ? void 0 : payload.startTime, 'HH:mm'))) {
-        throw new appError_1.default(http_status_1.default.NOT_ACCEPTABLE, 'start Time must be bigger then latest Time');
-    }
     if (startTimeHour > endTimeHour) {
         throw new appError_1.default(http_status_1.default.NOT_ACCEPTABLE, 'endTime must be bigger then startTime');
     }
@@ -123,7 +118,7 @@ const createSlotDB = (payload) => __awaiter(void 0, void 0, void 0, function* ()
 });
 const serviceSlotsDB = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const serviceId = req.params.id;
-    const date = (0, moment_1.default)(req.params.date).format('L');
+    // const date = moment(req.params.date).format('L');
     const isExist = yield service_model_1.default.find({ _id: serviceId, isDeleted: false });
     if (!isExist) {
         throw new appError_1.default(http_status_1.default.NOT_FOUND, 'The service not found.');
@@ -131,7 +126,7 @@ const serviceSlotsDB = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield slot_model_1.default.find({
         service: serviceId,
         date: {
-            $eq: date,
+            $eq: req.params.date,
         },
     });
     return result;

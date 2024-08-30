@@ -76,10 +76,11 @@ const createSlotDB = async (payload: TSlot) => {
   if (!isExist) {
     throw new AppError(httpStatus.NOT_FOUND, 'The service not found.');
   }
-  if (!moment(moment().format('L')).isSameOrBefore(moment(payload.date).format('L'))) {
+
+  if (moment(payload.date).isBefore()) {
     throw new AppError(
       httpStatus.NOT_ACCEPTABLE,
-      'select current date or upcoming date',
+      'select upcoming date',
     );
   }
   const startTimeHour = Number(payload.startTime.split(':')[0]);
@@ -87,16 +88,6 @@ const createSlotDB = async (payload: TSlot) => {
   const endTimeHour = Number(payload.endTime.split(':')[0]);
   const endTimeMin = Number(payload.endTime.split(':')[1]);
 
-  if (
-    moment(moment().format('HH:mm'), 'HH:mm').isSameOrAfter(
-      moment(payload?.startTime, 'HH:mm'),
-    )
-  ) {
-    throw new AppError(
-      httpStatus.NOT_ACCEPTABLE,
-      'start Time must be bigger then latest Time',
-    );
-  }
   if (startTimeHour > endTimeHour) {
     throw new AppError(
       httpStatus.NOT_ACCEPTABLE,
