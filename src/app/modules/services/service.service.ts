@@ -76,9 +76,7 @@ const createSlotDB = async (payload: TSlot) => {
   if (!isExist) {
     throw new AppError(httpStatus.NOT_FOUND, 'The service not found.');
   }
-  const date = new Date(payload.date).setHours(0, 0, 0, 0);
-  const curDate = new Date(Date.now()).setHours(0, 0, 0, 0);
-  if (date < curDate) {
+  if (!moment(moment().format('L')).isSameOrBefore(moment(payload.date).format('L'))) {
     throw new AppError(
       httpStatus.NOT_ACCEPTABLE,
       'select current date or upcoming date',
