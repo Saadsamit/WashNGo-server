@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.userRoute = void 0;
+const express_1 = require("express");
+const user_controller_1 = require("./user.controller");
+const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
+const user_validation_1 = require("./user.validation");
+const auth_1 = __importDefault(require("../../middlewares/auth"));
+const user_const_1 = require("./user.const");
+const route = (0, express_1.Router)();
+route.post('/signup', (0, validateRequest_1.default)(user_validation_1.userSchemaValidation), user_controller_1.userController.signup);
+route.post('/login', (0, validateRequest_1.default)(user_validation_1.loginSchemaValidation), user_controller_1.userController.login);
+route.get('/allUser', (0, auth_1.default)(user_const_1.User_Role.admin), user_controller_1.userController.allUser);
+route.put('/roleUpdate/:id', (0, auth_1.default)(user_const_1.User_Role.admin), user_controller_1.userController.roleUpdate);
+route.get('/myAccount', (0, auth_1.default)(), user_controller_1.userController.myAccount);
+route.patch('/updateAccount', (0, auth_1.default)(), (0, validateRequest_1.default)(user_validation_1.updateAccountSchemaValidation), user_controller_1.userController.updateAccount);
+exports.userRoute = route;
