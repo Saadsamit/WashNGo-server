@@ -42,7 +42,6 @@ const allBooking = catchAsync(async (req: Request, res: Response) => {
 
 const userBooking = catchAsync(async (req: Request, res: Response) => {
   const result = await bookingService.userBookingDB(req);
-
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

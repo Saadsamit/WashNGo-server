@@ -89,6 +89,16 @@ const createSlotDB = async (payload: TSlot) => {
   const endTimeHour = Number(payload.endTime.split(':')[0]);
   const endTimeMin = Number(payload.endTime.split(':')[1]);
 
+  if (
+    moment(moment().format('HH:mm'), 'HH:mm').isSameOrAfter(
+      moment(payload?.startTime, 'HH:mm'),
+    )
+  ) {
+    throw new AppError(
+      httpStatus.NOT_ACCEPTABLE,
+      'start Time must be bigger then latest Time',
+    );
+  }
   if (startTimeHour > endTimeHour) {
     throw new AppError(
       httpStatus.NOT_ACCEPTABLE,

@@ -34,6 +34,11 @@ const auth = (...roles: TUserRole[]) => {
         'You have no access to this route',
       );
     }
+    // console.log(isExist);
+    if (role !== isExist.role) {
+      throw new AppError(httpStatus.UNAUTHORIZED, 'Login Again');
+    }
+
     req.user = {
       email,
       role,

@@ -5,7 +5,7 @@ const userSchemaValidation = z.object({
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(6),
-    phone: z.number(),
+    phone: z.string(),
     address: z.string(),
   }),
 });
@@ -20,7 +20,7 @@ const loginSchemaValidation = z.object({
 const updateAccountSchemaValidation = z.object({
   body: z.object({
     name: z.string(),
-    phone: z.number(),
+    phone: z.string(),
     address: z.string(),
   }),
 });

@@ -25,9 +25,8 @@ const userSchema = new Schema<Tuser, TUserModel>(
       trim: true,
     },
     phone: {
-      type: Number,
+      type: String,
       required: true,
-      trim: true,
     },
     role: {
       type: String,
