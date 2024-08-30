@@ -9,6 +9,7 @@ import user from '../user/user.model';
 import booking from './booking.model';
 import moment from 'moment';
 import axios from 'axios';
+import config from '../../config';
 
 const createBookingDB = async (req: Request, payload: TBooking) => {
   const { email, name, address, phone } = req.user;
@@ -71,7 +72,7 @@ const createBookingDB = async (req: Request, payload: TBooking) => {
       tran_id: bookingData?._id,
       success_url: `${req.protocol + '://' + req.get('Host') + req.baseUrl}/payment/confirm`,
       fail_url: `${req.protocol + '://' + req.get('Host') + req.baseUrl}/payment/fail?bookingId=${bookingData?._id}`,
-      cancel_url: `${req.protocol + '://' + req.get('Host') + req.baseUrl}/`,
+      cancel_url: `${config.url}/payment/cancel/${bookingData?._id}`,
       amount: price,
       currency: 'BDT',
       desc: 'Merchant Registration Payment',
